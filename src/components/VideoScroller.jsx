@@ -9,7 +9,7 @@ const VideoScroller = () => {
     const containerRef = useRef(null);
     const [images, setImages] = useState([]);
     const frameCount = 240;
-    
+
     // Object to hold the current frame index for GSAP to animate
     const airpods = useRef({ frame: 0 });
 
@@ -52,7 +52,7 @@ const VideoScroller = () => {
                 const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
                 const x = (canvas.width / 2) - (img.width / 2) * scale;
                 const y = (canvas.height / 2) - (img.height / 2) * scale;
-                
+
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(img, x, y, img.width * scale, img.height * scale);
             }
@@ -63,10 +63,16 @@ const VideoScroller = () => {
             scrollTrigger: {
                 trigger: containerRef.current,
                 start: "top top",
-                end: "+=400%", // Longer scroll for more breathing room
+                end: "+=600%", // Longer scroll for 5 cards
                 scrub: 0.5,
                 pin: true,
                 anticipatePin: 1,
+                snap: {
+                    snapTo: [0, 0.2, 0.4, 0.6, 0.8, 1],
+                    duration: { min: 0.2, max: 0.5 },
+                    delay: 0.1,
+                    ease: "power2.inOut"
+                }
             }
         });
 
@@ -79,30 +85,33 @@ const VideoScroller = () => {
             onUpdate: () => renderFrame(airpods.current.frame)
         }, 0);
 
-        // 2. Content Translation (Moving the cards up)
-        masterTl.to(".video-scroller-content", {
-            y: "-200%",
-            ease: "none",
-            duration: 1,
-        }, 0);
-
-        // 3. Card Animations (Fade in/out at specific progress points)
-        const cards = gsap.utils.toArray('.glass-card');
+        // 2. Card Animations (Absolute positioning approach)
+        const cards = gsap.utils.toArray('.scroll-section');
         cards.forEach((card, i) => {
-            // Fade in
+            const start = i * 0.2; // Start points: 0, 0.2, 0.4, 0.6, 0.8
+            const sectionTl = gsap.timeline();
+
+            // Fade in the section
             masterTl.to(card, {
                 opacity: 1,
+                visibility: "visible",
+                duration: 0.15,
+            }, start);
+
+            // Animate the card inside (slide up)
+            masterTl.to(card.querySelector('.glass-card'), {
                 y: 0,
-                duration: 0.2,
-            }, (i * 0.4)); // Start points: 0, 0.4, 0.8
-            
-            // Fade out (only for first two)
+                opacity: 1,
+                duration: 0.15,
+            }, start);
+
+            // Fade out (if not the last one)
             if (i < cards.length - 1) {
                 masterTl.to(card, {
                     opacity: 0,
-                    y: -30,
-                    duration: 0.2,
-                }, (i * 0.4) + 0.3);
+                    visibility: "hidden",
+                    duration: 0.15,
+                }, start + 0.2);
             }
         });
 
@@ -146,20 +155,32 @@ const VideoScroller = () => {
             <div className="video-scroller-content">
                 <section className="scroll-section left">
                     <div className="glass-card">
-                        <h2>Precision Engineered</h2>
-                        <p>Every curve, every detail, perfected for your ears.</p>
+                        <h2>Engineered for Comfort</h2>
+                        <p>Designed with a unique teardrop shape that conforms to the natural anatomy of your ear for a secure, all-day fit.</p>
+                    </div>
+                </section>
+                <section className="scroll-section right">
+                    <div className="glass-card">
+                        <h2>Seamless Connectivity</h2>
+                        <p>Instantly connects to all your devices. Switch from your Mac to your iPhone without skipping a single beat.</p>
                     </div>
                 </section>
                 <section className="scroll-section left">
                     <div className="glass-card">
-                        <h2>Wireless Freedom</h2>
-                        <p>Seamlessly switch between devices without missing a beat.</p>
+                        <h2>Spatial Audio</h2>
+                        <p>Immersive 3D sound that places you at the center of the action. Experience music and movies like never before.</p>
                     </div>
                 </section>
                 <section className="scroll-section right">
                     <div className="glass-card">
                         <h2>Active Noise Cancellation</h2>
-                        <p>Shut out the world. Immerse in the music.</p>
+                        <p>Two microphones work together to cancel out external noise, letting you focus entirely on your audio experience.</p>
+                    </div>
+                </section>
+                <section className="scroll-section left">
+                    <div className="glass-card">
+                        <h2>The Future of Sound</h2>
+                        <p>Bolder bass, crisper highs, and unparalleled clarity. The ultimate listening experience is finally here.</p>
                     </div>
                 </section>
             </div>

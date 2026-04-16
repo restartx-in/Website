@@ -11,6 +11,7 @@ body {
   color: #fff;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  scroll-snap-type: y mandatory;
 }
 
 .hero-section {
@@ -19,9 +20,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at center, #111 0%, #030303 100%);
+  background: #000;
   position: relative;
   z-index: 10;
+  scroll-snap-align: start;
 }
 
 .hero-container {
@@ -49,6 +51,7 @@ body {
 
   .hero-description {
     margin-bottom: 3rem;
+
     p {
       font-size: 1.2rem;
       color: rgba(255, 255, 255, 0.6);
@@ -110,8 +113,15 @@ body {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 .video-scroller-container {
@@ -120,6 +130,7 @@ body {
   height: 100vh;
   z-index: 2;
   background: transparent;
+  scroll-snap-align: start;
 }
 
 .video-scroller-canvas {
@@ -137,57 +148,78 @@ body {
 }
 
 .scroll-section {
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
   padding: 5%;
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
 
-  &.left { 
-    justify-content: flex-start; 
-    padding-left: 10%; 
+  &.left {
+    justify-content: flex-start;
+    padding-left: 10%;
   }
 
-  &.right { 
-    justify-content: flex-end; 
-    padding-right: 10%; 
+  &.right {
+    justify-content: flex-end;
+    padding-right: 10%;
   }
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2.5rem;
-  border-radius: 24px;
-  max-width: 420px;
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  border-radius: 32px;
+  max-width: 450px;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
   pointer-events: auto;
   opacity: 0; // Hidden by default, animated by GSAP
-  transform: translateY(30px);
-  transition: border-color 0.3s ease;
+  transform: translateY(40px);
+  transition: border-color 0.3s ease, background 0.3s ease;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
   }
 
   h2 {
-    font-size: 2.5rem;
-    margin-bottom: 0.8rem;
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
     background: linear-gradient(135deg, #fff 0%, #a855f7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1.1;
+    letter-spacing: -0.02em;
   }
 
   p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    max-width: 320px;
+
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
   }
 }
 
-h1, h2 {
+h1,
+h2 {
   font-family: 'Playfair Display', serif;
 }
