@@ -162,12 +162,12 @@ body {
 
   &.left {
     justify-content: flex-start;
-    padding-left: 10%;
+    padding-left: 6%;
   }
 
   &.right {
     justify-content: flex-end;
-    padding-right: 10%;
+    padding-right: 6%;
   }
 }
 
@@ -175,9 +175,10 @@ body {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 2.5rem;
-  border-radius: 32px;
-  max-width: 450px;
+  padding: 2.2rem;
+  border-radius: 28px;
+  max-width: 380px;
+  width: 100%;
   box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
   pointer-events: auto;
   opacity: 0; // Hidden by default, animated by GSAP
@@ -190,8 +191,8 @@ body {
   }
 
   h2 {
-    font-size: 2.8rem;
-    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
     background: linear-gradient(135deg, #fff 0%, #a855f7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
